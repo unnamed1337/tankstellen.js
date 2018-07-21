@@ -2,6 +2,10 @@ var tankstellen;
 
 (function(){
   var initialized,apiKey,lat,lng,radius,type,order;
+  var basePath="https://creativecommons.tankerkoenig.de/json/";
+  var listPath=basePath+"list.php";
+  var pricePath=basePath+"prices.php";
+  var dateilPath=basePath+"detail.php";
   function Init(data){
     let returnVal;
     if(data.apiKey!==undefined){
@@ -24,13 +28,31 @@ var tankstellen;
       type=data.spritType!==undefined?data.spritType:"all";
       type=(type=="e5"||type=="e10"||type=="diesel"||type=="all")?type:"all";
       order=data.sortBy!==undefined?data.sortBy:"dist";
-      order=(order=="price"||order=="dist")?order:"dist";
-      /*
-        TODO
-      */
+      order=(order=="price"||order=="dist")?order:"dist";    
+      $.ajax({
+        url:listPath,
+        data:{
+          lat:lat,
+          lng:lng,
+          rad:radius,
+          sort:order,
+          type:type,
+          apikey:apiKey
+        },
+        success: function(response){
+          if(response.ok){
+            return response;
+          }
+          else{
+            console.log(response.message);
+            return false;
+          }
+        }
+      });
     }
     else{
-      return "Not initialized.";
+      console.log("Not initialized.");
+      return false;
     }
   }
   
