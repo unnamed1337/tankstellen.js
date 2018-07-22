@@ -8,7 +8,9 @@ $(function(){
   });
   
   
-  tankstellen.Finden({
+  var test = tankstellen.Finden({
     sortBy:"dist"
   });
+  
+  console.log(test);
 });
