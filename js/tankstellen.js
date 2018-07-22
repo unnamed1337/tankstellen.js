@@ -4,7 +4,7 @@ var tankstellen;
   var basePath="https://creativecommons.tankerkoenig.de/json/";
   var listPath=basePath+"list.php";
   var pricePath=basePath+"prices.php";
-  var dateilPath=basePath+"detail.php";
+  var datailPath=basePath+"detail.php";
   function Init(data){
     let returnVal;
     if(data.apiKey!==undefined){
@@ -20,6 +20,7 @@ var tankstellen;
   }
   function Search(data){
     let returnVal;
+    data = data!==undefined?data:"";
     if(initialized && data !== undefined){
       lat=data.latitude!==undefined?data.latitude:50.941278;
       lng=data.longitude!==undefined?data.longitude:6.958281;
@@ -27,8 +28,8 @@ var tankstellen;
       radius=radius>=25?25:radius;
       type=data.spritType!==undefined?data.spritType:"all";
       type=(type=="e5"||type=="e10"||type=="diesel"||type=="all")?type:"all";
-      order=data.sortBy!==undefined?data.sortBy:"price";
-      order=(order=="price"||order=="dist")?order:"price";    
+      order=data.sortBy!==undefined?data.sortBy:"dist";
+      order=(order=="price"||order=="dist")?order:"dist";    
       $.ajax({
         url:listPath,
         async:false,
@@ -73,15 +74,33 @@ var tankstellen;
     }
   }
   function detail(data){
+    var returnVal,id;
     if(initialized){
-      /*
-        TODO
-      */
+      id=data.id!==undefined?data.id:"4409a024-b190-4b4c-aa69-cb2cd3b4ca0a";
+      $.ajax({
+        url:datailPath,
+        async:false,
+        cache:false,
+        data:{
+          id:id,
+          apikey:apiKey
+        }
+      }).done(function(response){
+          if(response.status=="ok"){
+            returnVal = response.station;
+          }
+          else{
+            console.error(response.message);
+            returnVal = false;
+          }
+        }
+      );
     }
     else{
       console.log("Not initialized.");
-      return false;
+      returnVal = false;
     }
+    return returnVal;
   }
   
   tankstellen.Init = Init;
