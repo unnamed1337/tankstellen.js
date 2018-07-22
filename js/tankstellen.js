@@ -24,7 +24,7 @@ var tankstellen;
     if(initialized && data !== undefined){
       lat=data.latitude!==undefined?data.latitude:50.941278;
       lng=data.longitude!==undefined?data.longitude:6.958281;
-      radius=data.apiKey!==undefined?data.radius:10;
+      radius=data.apiKey!==undefined?data.radius:5;
       radius=radius>=25?25:radius;
       type=data.spritType!==undefined?data.spritType:"all";
       type=(type=="e5"||type=="e10"||type=="diesel"||type=="all")?type:"all";
