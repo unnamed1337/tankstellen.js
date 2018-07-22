@@ -6,17 +6,15 @@ var tankstellen;
   var pricePath=basePath+"prices.php";
   var datailPath=basePath+"detail.php";
   function Init(data){
-    let returnVal;
     if(data.apiKey!==undefined){
        apiKey=data.apiKey;7
-       returnVal = "done";
     }
     else{
       apiKey="00000000-0000-0000-0000-000000000002";
-      returnVal="Using Demo key - will only return test data";
+      console.log("Using Demo key - will only return test data");
     }
     initialized=true;
-    return returnVal;
+    return true;
   }
   function Search(data){
     let returnVal;
@@ -74,7 +72,7 @@ var tankstellen;
     }
   }
   function detail(data){
-    var returnVal,id;
+    let returnVal,id;
     if(initialized){
       id=data.id!==undefined?data.id:"4409a024-b190-4b4c-aa69-cb2cd3b4ca0a";
       $.ajax({
